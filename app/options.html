@@ -1,0 +1,32 @@
+<!doctype html>
+<html ng-app="skip-templater">
+    <head>
+        <link href="styles/options.css" rel="stylesheet">
+        <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+      <div ng-controller="OptionCtrl">
+        <div class="contents">
+          <h1>テンプレートの設定</h1>
+          <form role="form">
+            <div class="form-group">
+              <label for="title">タイトル</label>
+              <input type="text" class="form-control" id="title" ng-model="title">
+            </div>
+            <div class="form-group">
+              <label for="body">内容</label>
+              <textarea class="form-control" rows="20" id="body" ng-model="body"></textarea>
+            </div>
+          </form>
+          <button ng-click="addTemplate()" class="btn btn-primary">登録</button>
+          <button ng-click="clear()" class="btn btn-danger">クリア</button>
+        </div>
+      </div>
+      <script src="bower_components/jquery/dist/jquery.min.js"></script>
+      <script src="bower_components/angular/angular.js"></script>
+      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+      <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+      <script src="scripts/app.js"></script>
+      <script src="scripts/options.js"></script>
+    </body>
+</html>
