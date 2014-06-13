@@ -1,7 +1,5 @@
 'use strict';
 
-console.log('\'Allo \'Allo! Content script');
-
 $(function() {
     chrome.storage.local.get(function(items) {
 
@@ -20,9 +18,11 @@ $(function() {
         var $td_buttons = $('<td/>').attr('class', 'buttons');
         var $span_load = $('<span/>').attr('class', 'load');
 
-        var $a_load = $('<a/>').attr('class', 'unbind_beforeunload').attr('href', '#').attr('onClick', '$("#board_entry_title").val("' + template.title + '"); $("#board_entry_contents").val("' + template.body + '"); return false;').text('読み込む');
+        // Chrome Extentionのcontent_scriptでは自分で定義した関数を呼び出せないので、無理矢理書き込んでいる
+        // template.bodyは改行コードが含まれるため、escapeしてデータを保存している。その為、.val()呼出し時にunescapeして\nに戻して出力している。
+        var $a_load = $('<a/>').attr('class', 'unbind_beforeunload').attr('href', '#').attr('onClick', '$("#board_entry_title").val("' + template.title + '"); $("#board_entry_contents").val(unescape("' + template.body + '")); return false;').text('読み込む');
         var $span_delete= $('<span/>').attr('class', 'delete_operation_wrapper inline delete');
-        var $a_delete= $('<a/>').attr('class', 'destroy_draft_trigger').text('削除');
+        var $a_delete= $('<a/>').attr('class', 'destroy_draft_trigger').attr('href', '#').attr('onClick', 'chrome.storage.local.remove(' + index + '); return false;').text('削除');
 
         var $td_entry = $('<td/>').attr('class', 'entry');
         // タイトルはlocalstorageから取得

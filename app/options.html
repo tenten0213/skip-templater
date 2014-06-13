@@ -8,6 +8,7 @@
       <div ng-controller="OptionCtrl">
         <div class="contents">
           <h1>テンプレートの設定</h1>
+          <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
           <form role="form">
             <div class="form-group">
               <label for="title">タイトル</label>
@@ -19,7 +20,8 @@
             </div>
           </form>
           <button ng-click="addTemplate()" class="btn btn-primary">登録</button>
-          <button ng-click="clear()" class="btn btn-danger">クリア</button>
+          <button ng-click="clear()" class="btn btn-warning">クリア</button>
+          <button ng-click="allDelete()" class="btn btn-danger">一括テンプレート削除</button>
         </div>
       </div>
       <script src="bower_components/jquery/dist/jquery.min.js"></script>
