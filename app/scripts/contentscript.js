@@ -25,7 +25,6 @@ $(function() {
           // タイトルはlocalstorageから取得
           var $span_entry = $('<span/>').attr('class', 'entry_title').text(template[title].title);
 
-
           $span_load.append($a_load);
           $td_buttons.append($span_delete);
           $td_buttons.append($span_load);
