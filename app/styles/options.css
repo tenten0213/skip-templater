@@ -9,3 +9,20 @@ form {
   padding: 20px 12px 12px 12px;
   margin: 0 0 10px 0;
 }
+
+.table>tbody>tr>td {
+  vertical-align: middle;
+}
+
+table.templates {
+  margin-top: 40px;
+}
+
+td.buttons {
+  width: 140px;
+  text-align: center;
+}
+
+button {
+  margin: 2px;
+}
