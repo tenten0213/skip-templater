@@ -1,49 +1,48 @@
 'use strict';
 
-console.log('\'Allo \'Allo! Content script');
-
 $(function() {
-    chrome.storage.local.get(function(items) {
+    var storage = chrome.storage.local;
+    storage.get(function(items) {
 
-      var templates = items.templates;
-      console.log(templates);
-      var $private_entries = $('.private_entries');
+      if(Object.keys(items).length > 0) {
+        var $privateEntries = $('.private_entries');
+        if($privateEntries.length === 0) {
+          $privateEntries = $('.buttons');
+        }
+        var $templateEntries = $('<div/>').attr('class', 'private_entries');
+        var $title = $('<h2/>').attr('class', 'title').text('テンプレート');
+        var $table = $('<table/>').attr('class', 'drafts').append('<tbody/>');
 
-      var $template_entries = $('<div/>').attr('class', 'private_entries');
-      var $title = $('<h2/>').attr('class', 'title').text('テンプレート');
-      var $table = $('<table/>').attr('class', 'drafts').append('<tbody/>');
+        $(Object.keys(items)).each(function(index, title) {
+          storage.get(title, function(template) {
+            var $tr = $('<tr/>').attr('class', 'topix_entry');
 
-      $(templates).each(function(index, template) {
+            var $tdButtons = $('<td/>').attr('class', 'buttons');
+            var $spanLoad = $('<span/>').attr('class', 'load');
 
-        var $tr = $('<tr/>').attr('class', 'topix_entry');
+            // Chrome Extentionのcontent_scriptでは自分で定義した関数を呼び出せないので、無理矢理書き込んでいる
+            // template.bodyは改行コードが含まれるため、escapeしてデータを保存している。その為、.val()呼出し時にunescapeして\nに戻して出力している。
+            var $aLoad = $('<a/>').attr('class', 'unbind_beforeunload').attr('href', '#').attr('onClick', '$("#board_entry_title").val("' + template[title].title + '"); $("#board_entry_contents").val(unescape("' + template[title].body + '")); return false;').text('読み込む');
+            var $spanDelete= $('<span/>').attr('class', 'delete_operation_wrapper inline delete');
 
-        var $td_buttons = $('<td/>').attr('class', 'buttons');
-        var $span_load = $('<span/>').attr('class', 'load');
+            var $tdEntry = $('<td/>').attr('class', 'entry');
+            // タイトルはlocalstorageから取得
+            var $spanEntry = $('<span/>').attr('class', 'entry_title').text(template[title].title);
 
-        var $a_load = $('<a/>').attr('class', 'unbind_beforeunload').attr('href', '#').attr('onClick', '$("#board_entry_title").val("' + template.title + '"); $("#board_entry_contents").val("' + template.body + '"); return false;').text('読み込む');
-        var $span_delete= $('<span/>').attr('class', 'delete_operation_wrapper inline delete');
-        var $a_delete= $('<a/>').attr('class', 'destroy_draft_trigger').text('削除');
+            $spanLoad.append($aLoad);
+            $tdButtons.append($spanDelete);
+            $tdButtons.append($spanLoad);
 
-        var $td_entry = $('<td/>').attr('class', 'entry');
-        // タイトルはlocalstorageから取得
-        var $span_entry = $('<span/>').attr('class', 'entry_title').text(template.title);
+            $tdEntry.append($spanEntry);
 
-        $template_entries.append($title);
-
-        $span_delete.append($a_delete);
-        $span_load.append($a_load);
-        $td_buttons.append($span_delete);
-        $td_buttons.append($span_load);
-
-        $td_entry.append($span_entry);
-
-        $tr.append($td_buttons);
-        $tr.append($td_entry);
-        $table.append($tr);
-      })
-
-      $template_entries.append($table);
-      $private_entries.append($template_entries);
-
+            $tr.append($tdButtons);
+            $tr.append($tdEntry);
+            $table.append($tr);
+          });
+        });
+        $templateEntries.append($title);
+        $templateEntries.append($table);
+        $privateEntries.append($templateEntries);
+      }
     });
 });

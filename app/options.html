@@ -1,17 +1,26 @@
 <!doctype html>
-<html ng-app="skip-templater">
+<html ng-app="skip-templater" ng-csp>
     <head>
-        <link href="styles/options.css" rel="stylesheet">
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+        <script src="bower_components/ngstorage/ngStorage.min.js"></script>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/services.js"></script>
+        <script src="scripts/options.js"></script>
         <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="styles/options.css" rel="stylesheet">
     </head>
     <body>
       <div ng-controller="OptionCtrl">
         <div class="contents">
-          <h1>テンプレートの設定</h1>
-          <form role="form">
+          <alert class="alert" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+          <h1>テンプレート登録</h1>
+          <form ng-role="form" name="template" ng-submit="addTemplate()" novalidate>
             <div class="form-group">
               <label for="title">タイトル</label>
-              <input type="text" class="form-control" id="title" ng-model="title">
+              <input type="text" name="title" class="form-control" id="title" ng-model="title">
             </div>
             <div class="form-group">
               <label for="body">内容</label>
@@ -19,14 +28,26 @@
             </div>
           </form>
           <button ng-click="addTemplate()" class="btn btn-primary">登録</button>
-          <button ng-click="clear()" class="btn btn-danger">クリア</button>
+          <button ng-click="clear()" class="btn btn-warning">クリア</button>
+          <button ng-click="allDeleteTemplate()" class="btn btn-danger">一括テンプレート削除</button>
+          <table ng-table class="table table-bordered templates">
+            <tr class="template" ng-repeat="template in templates">
+              <td class="buttons">
+                <span>
+                <button ng-click='readTemplate(template)' class="btn btn-info">読込</button>
+                </span>
+                <span>
+                <button ng-click='deleteTemplate(template, $index)' class="btn btn-danger">削除</button>
+                </span>
+              </td>
+              <td class="title">
+                <span>
+                  {{template.title}}
+                </span>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
-      <script src="bower_components/jquery/dist/jquery.min.js"></script>
-      <script src="bower_components/angular/angular.js"></script>
-      <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-      <script src="bower_components/ngstorage/ngStorage.min.js"></script>
-      <script src="scripts/app.js"></script>
-      <script src="scripts/options.js"></script>
     </body>
 </html>

@@ -1,3 +1,7 @@
+'user strict';
+
 angular.module('skip-templater', [
-    'skip-templater.options'
+  'skip-templater.services',
+  'skip-templater.options',
+  'ngAnimate'
   ]);
