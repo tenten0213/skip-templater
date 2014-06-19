@@ -2,12 +2,11 @@ div.contents {
     width: 650px;
     margin: 0 auto;
 }
-
 form {
   background: #f2f4f8;
   border: #c7c7c7 solid 1px;
   padding: 20px 12px 12px 12px;
-  margin: 0 0 10px 0;
+  margin: 30px 0 30px 0;
 }
 
 .table>tbody>tr>td {
@@ -26,3 +25,49 @@ td.buttons {
 button {
   margin: 2px;
 }
+
+.alert {
+  width: 650px;
+  position: absolute;
+  z-index: 101;
+  overflow: hidden; 
+}
+.alert.ng-enter {
+ -webkit-transition: 0.5s linear all; /* Safari/Chrome */
+ transition: 0.5s linear all; /* All other modern browsers and IE10+ */
+ opacity: 0;
+}
+.alert.ng-enter.ng-enter-active { 
+ opacity: 1;
+}
+.alert.ng-leave { 
+ -webkit-transition: 1.0s ease-out all;
+ transition: 1.0s ease-out all;
+}
+.alert.ng-leave-active {
+ opacity: 0;  
+}
+
+.template.ng-enter {
+ -webkit-transition: 0.5s linear all; /* Safari/Chrome */
+ transition: 0.5s linear all; /* All other modern browsers and IE10+ */
+ opacity: 0;
+}
+.template.ng-enter.ng-enter-active { 
+ opacity: 1;
+}
+.template.ng-leave { 
+ -webkit-transition: 0.5s ease-out all;
+ transition: 0.5s ease-out all;
+}
+.template.ng-leave-active {
+ opacity: 0;  
+}
+.ng-hide {
+  /* this is just another form of hiding an element */
+  display:block!important;
+  position:absolute;
+  top:-9999px;
+  left:-9999px;
+}
+
